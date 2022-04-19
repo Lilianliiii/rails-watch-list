@@ -5,6 +5,7 @@ class ListsController < ApplicationController
 
   def show
     @list = List.find(params[:id])
+    @movies = Movie.all
   end
 
   def new
@@ -15,11 +16,16 @@ class ListsController < ApplicationController
     @list = List.new(list_params)
 
     if @list.save
-      redirect_to @list, notice: 'List was successfully created'
+      redirect_to list_path(@list), notice: 'List was successfully created'
     else
-      @list = List.new
       render :new
     end
+  end
+
+  def destroy
+    @list = List.find(params[:id])
+    @list.destroy
+    redirect_to root_path
   end
 
   private
